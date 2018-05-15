@@ -15,10 +15,9 @@
     "dialect": "mysql"
   },
   "production": {
-    "username": "n78xhpr6p37rxtsz",
-    "password": "en471iq8h07v44ya",
-    "database": "burgersDB",
-    "host": "ou6zjjcqbi307lip.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
+    "use_env_variable": "JAWSDB_URL",
     "dialect": "mysql"
   }
 }
+
+
