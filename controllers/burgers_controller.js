@@ -1,46 +1,46 @@
-const express = require('express');
-const router = express();
+var burger = require("../models/burger.js");
 
-// Import the model to use its database functions.
-const burger = require('../models/burger.js');
+var express = require("express");
+var router = express.Router();
 
-router.get('/', function(req, res){
-	// Get burgers from database to display on page
-	burger.findAll().then(burgers => {
-		var burgerObj = {
-			burgers: burgers
-		}
-		res.render("index", burgerObj);
-	});
+var db = require("../models");
+
+router.get("/", function(request, response) {
+
+  db.Burger.findAll({}).then(function(result) {
+    response.render("index", {burgers: result});
+  });
 });
 
-// Add burger to database
-router.post('/', function(req, res){
-	burger.create({
-		burgerName: req.body.burger
-	}).then(function (data) {
-		res.redirect('/');
-	});
+router.post("/api/burger", function(request, response){
+  db.Burger.create({
+      burger_name: request.body.burgerName
+    }).then(function(result) {
+    response.json(result);
+  });
 });
 
-
-// Update specific burger
-router.put('/api/burgers/:id', function(req, res){
-	
-	burger.update({
-		devoured: 1
-	},{
-		where: {
-			id: req.params.id
-		}
-	}).then(function(result){
-		if (result.changedRows == 0) {
-			return res.status(404).end();
-		} else {
-			res.status(200).end();
-		}	
-	});
+router.put("/api/burger/:id", function(request, response) {
+  db.Burger.update(
+    {
+      devoured: request.body.devoured
+    },{
+      where: {
+        id: request.params.id
+      }
+    }).then(function(result) {
+      response.json(result);
+    });
 });
 
-// export the router
+router.delete("/api/burger/:id", function(request, response){
+  db.Burger.destroy({
+    where: {
+      id: request.params.id
+    }
+    }).then(function(result) {
+      response.json(result);
+  });
+});
+
 module.exports = router;
