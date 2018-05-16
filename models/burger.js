@@ -14,7 +14,7 @@ var Burger = sequelize.define("burger", {
 });
 
 // Sync with DB
-Burgers.sync();
+BurgersDB.sync();
 
 // Export the database functions for the controller
 module.exports = Burger;
